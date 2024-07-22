@@ -19,7 +19,7 @@ func main() {
 	var sslCA string
 
 	flag.StringVar(&address, "a", "0.0.0.0", "IP/hostname to listen on")
-	flag.IntVar(&port, "p", 80, "Port to listen on")
+	flag.IntVar(&port, "p", 8000, "Port to listen on")
 	flag.StringVar(&sslCert, "ssl-cert", "", "Certificate file for SSL")
 	flag.StringVar(&sslKey, "ssl-key", "", "Key file for SSL")
 	flag.StringVar(&sslCA, "ssl-ca", "", "CA cert file for client cert validations")

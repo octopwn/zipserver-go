@@ -4,14 +4,12 @@ package server
 import (
     "archive/zip"
     "crypto/tls"
-    "crypto/x509"
     "fmt"
     "io"
     "log"
     "mime"
     "net"
     "net/http"
-    "os"
     "path/filepath"
     "strings"
 )
@@ -30,8 +28,6 @@ func NewHttpRequestHandler(zipFilePath string) (*HttpRequestHandler, error) {
 }
 
 func (h *HttpRequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    defer h.zipReader.Close()
-
     filePath := strings.TrimLeft(r.URL.Path, "/")
     if filePath == "" {
         filePath = "index.html"
@@ -77,6 +73,8 @@ func Serve(zipFilePath, ip string, port int, tlsConfig *tls.Config) {
     if err != nil {
         log.Fatalf("Failed to create handler: %v", err)
     }
+
+    defer handler.zipReader.Close()
 
     server := &http.Server{
         Addr:      fmt.Sprintf("%s:%d", ip, port),
